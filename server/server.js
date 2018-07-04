@@ -27,6 +27,8 @@ app.post('/todos',(req,res)=>{
 
 app.get('/todos',(req,res)=>{
     Todo.find().then((todos) => {
+        if(!todo)
+            return res.status(400).send(e);
         res.send({todos});
     },(e)=>{
         res.status(400).send(e);
@@ -83,7 +85,6 @@ app.patch('/todos/:id',(req,res)=>{
 app.post('/users',(req,res)=>{
     var body = _.pick(req.body,['email','password']);
     var user = new User(body);
-
     user.save().then(()=>{
         return user.generateAuthToken();
     }).then((token)=>{
